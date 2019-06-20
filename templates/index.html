@@ -1,17 +1,18 @@
 {% from 'form_helper.html' import displayField %} {% extends
-'prelogin-layout.html' %} {% block title %} Registration {% endblock title %} {%
-block content %}
-<h1>Get started</h1>
+'prelogin-layout.html' %} {% block title %} Registration {% endblock title %} 
 
-<form action="{{ url_for('index') }}" , method="POST">
-    {{ displayField(form.username, 'Username', autocomplete="off", autofocus=True)}}
-    {{ displayField(form.password, 'Password') }}
-    {{ displayField(form.confirm_pswrd, 'Retype Password') }}
+{% block content %}
+  <h1>Get started</h1>
 
-  <div>
-    {{ form.submit_button() }}
-  </div>
+  <form action="{{ url_for('index') }}" , method="POST">
+      {{ displayField(form.username, 'Username', autocomplete="off", autofocus=True)}}
+      {{ displayField(form.password, 'Password') }}
+      {{ displayField(form.confirm_pswrd, 'Retype Password') }}
 
-  {{ form.csrf_token }}
-</form>
+    <div>
+      {{ form.submit_button }}
+    </div>
+
+    {{ form.csrf_token }}
+  </form>
 {% endblock content %}

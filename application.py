@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 
 from wtform_fields import *
 from models import *
@@ -14,18 +14,35 @@ db = SQLAlchemy(app)
 
 
 @app.route("/", methods=['GET', 'POST'])
-
 def index():
   reg_form = RegistrationForm()
-  if reg_form.validate_on_submit():
-   username = reg_form.username.data
-   password = reg_form.password.data
 
-   #check username exists
-   user_object = User.query.filter_by(username=username).first()
+  #update db if validation success
+  if reg_form.validate_on_submit():
+    username = reg_form.username.data
+    password = reg_form.password.data
+
+    # hash password
+    hashed_pswd = pbkdf2_sha256.hash(password)
+
+    #Add user to DB
+    user = User(username=username, password=hashed_pswd)
+    db.session.add(user)
+    db.session.commit()
+    return redirect(url_for('login')) 
 
   return render_template('index.html', form=reg_form)
 
-#synatax will flow in smoothly when bringing socket.io not really necessayre in current evrsion of flaask
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+  login_form = LoginForm()
+
+  #allow login if validation succeeded
+  if login_form.validate_on_submit():
+    return "Logged in, finally!"
+  
+  return render_template("login.html", form=login_form)
+
+#syntax will flow in smoothly when bringing socket.io not really necessayre in current evrsion of flaask
 if __name__ == '__main__':
   app.run(debug=True)
