@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <nav>
+
+  </nav>
+
+  <div id="main-section">
+    <!-- Room Selection -->
+    <nav id="sidebar">
+      <h4>ROOMS</h4>
+      {% for room in rooms  %}
+        <p class="select-room">{{ room|title }}</p>
+      {% endfor %}
+    </nav>
+
+    <!-- Message Area -->
+    <div id="rightside-panel">
+      <div id="display-message-section">
+
+      </div>
+      <div id="input-area">
+        <input type="text" id="user_message" placeholder="Type here..." autocomplete=="off">
+        <button type="button" id="send_message">SEND</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Get username -->
+  <script type="text/javascript">
+    const username = `{{ username }}`; // username|e will change any special character in username to its unicode  value but we dont need it here because WTF always return python unicode strings
+  </script>
+
+
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+  <!-- Custom Socketio JS -->
+  <script src="{{ url_for('static', filename='scripts/chat_page.js')}}"></script>
+  <script src="{{ url_for('static', filename='scripts/socketio.js')}}"></script>
+
+</body>
+</html>
